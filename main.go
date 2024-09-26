@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/shimodii/go-crud/controller"
 )
 
 func rootHandler(c *fiber.Ctx) error {
@@ -18,7 +19,8 @@ func main(){
         AppName: "go crud application",
     })
     
-    app.Get("/", rootHandler)
+    //app.Get("/", rootHandler)
+    app.Get("/", controller.GetAll)
     
     app.Listen(":3000")
 }
