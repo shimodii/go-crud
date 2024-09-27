@@ -5,6 +5,7 @@ import (
 
 	"github.com/gofiber/fiber/v2"
 	"github.com/shimodii/go-crud/controller"
+	"github.com/shimodii/go-crud/repository"
 )
 
 func rootHandler(c *fiber.Ctx) error {
@@ -14,6 +15,9 @@ func rootHandler(c *fiber.Ctx) error {
 func main(){
     fmt.Println("hello world")
     
+    fmt.Println("database init:")
+    repository.OpenDatabase()
+
     var app = fiber.New(fiber.Config{
         ServerHeader: "go-crud",
         AppName: "go crud application",
