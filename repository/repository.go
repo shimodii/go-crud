@@ -6,11 +6,14 @@ import (
 	"gorm.io/gorm"
 )
 
+var Database *gorm.DB
+
 func OpenDatabase(){
-    database, err := gorm.Open(sqlite.Open("database.db"), &gorm.Config{})
+    Database, err := gorm.Open(sqlite.Open("database.db"), &gorm.Config{})
     if err != nil {
         panic("databased failed to open!")
     }
 
-    database.AutoMigrate(&model.Card{})
+    Database.AutoMigrate(&model.Card{})
+
 }
