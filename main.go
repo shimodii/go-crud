@@ -23,6 +23,7 @@ func main(){
     app.Get("/cards/:id", controller.GetSpecific) 
     app.Post("/cards/new", controller.NewCard)
     app.Put("/cards/:id", controller.UpdateCard)
+    app.Delete("/cards/:id", controller.DeleteCard)
 
 
     app.Listen(":3000")
