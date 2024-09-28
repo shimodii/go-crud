@@ -6,14 +6,22 @@ import (
 	"gorm.io/gorm"
 )
 
-var Database *gorm.DB
+type DbInstance struct {
+    Db *gorm.DB
+}
+
+var Database DbInstance
 
 func OpenDatabase(){
-    Database, err := gorm.Open(sqlite.Open("database.db"), &gorm.Config{})
+    db, err := gorm.Open(sqlite.Open("database.db"), &gorm.Config{})
     if err != nil {
         panic("databased failed to open!")
     }
 
-    Database.AutoMigrate(&model.Card{})
+    db.AutoMigrate(&model.Card{})
+
+    Database = DbInstance{
+        Db: db,
+    }
 
 }
