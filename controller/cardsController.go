@@ -56,5 +56,15 @@ func UpdateCard(c *fiber.Ctx) error {
 }
 
 func DeleteCard(c *fiber.Ctx) error {
-    return c.SendString("delete card")
+    id := c.Params("id")
+    var card model.Card
+
+    repository.Database.Db.Find(&card, "id = ?", id)
+
+    err := repository.Database.Db.Delete(&card).Error
+    if err != nil {
+        return c.SendString("failed to Delete")
+    }
+
+    return c.Status(200).JSON("successfully deleted dude")
 }
