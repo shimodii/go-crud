@@ -33,3 +33,7 @@ func NewCard(c *fiber.Ctx) error {
 func UpdateCard(c *fiber.Ctx) error {
     return c.SendString("update card")
 }
+
+func DeleteCard(c *fiber.Ctx) error {
+    return c.SendString("delete card")
+}
