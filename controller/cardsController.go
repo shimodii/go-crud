@@ -31,7 +31,28 @@ func NewCard(c *fiber.Ctx) error {
 }
 
 func UpdateCard(c *fiber.Ctx) error {
-    return c.SendString("update card")
+    id := c.Params("id")
+    
+    var card model.Card
+
+    repository.Database.Db.Find(&card, "id = ?", id)
+
+    type newCardData struct {
+        Number string `json:"number"`
+        Owner string `json:"owner"`
+    }
+    var newCard newCardData
+
+    if err := c.BodyParser(&newCard); err != nil {
+        c.Status(500).JSON(err.Error())
+    }
+
+    card.Owner = newCard.Owner
+    card.Number = newCard.Number
+
+    repository.Database.Db.Save(&card)
+    
+    return c.Status(200).JSON(card)
 }
 
 func DeleteCard(c *fiber.Ctx) error {
