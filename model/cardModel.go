@@ -1,9 +1,7 @@
 package model
 
-import "gorm.io/gorm"
-
 type Card struct {
-    gorm.Model
-    Owner string
-    Number string
+    ID uint `json:"id" gorm:"primaryKey"`
+    Owner string `json:"owner"`
+    Number string `json:"number"`
 }
