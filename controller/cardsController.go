@@ -7,7 +7,9 @@ import (
 )
 
 func GetAll(c *fiber.Ctx) error {
-    return c.SendString("get all cards")
+    cards := []model.Card{}
+    repository.Database.Db.Find(&cards)
+    return c.JSON(cards)
 }
 
 func GetSpecific(c *fiber.Ctx) error {
