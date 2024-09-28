@@ -13,7 +13,10 @@ func GetAll(c *fiber.Ctx) error {
 }
 
 func GetSpecific(c *fiber.Ctx) error {
-    return c.SendString("specific card")
+    id := c.Params("id")
+    var card model.Card
+    repository.Database.Db.Find(&card, id)
+    return c.JSON(card)
 }
 
 func NewCard(c *fiber.Ctx) error {
