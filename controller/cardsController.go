@@ -4,6 +4,7 @@ import (
 	"github.com/gofiber/fiber/v2"
 	"github.com/shimodii/go-crud/model"
 	"github.com/shimodii/go-crud/repository"
+	"github.com/shimodii/go-crud/service"
 )
 
 func GetAll(c *fiber.Ctx) error {
@@ -15,7 +16,12 @@ func GetAll(c *fiber.Ctx) error {
 func GetSpecific(c *fiber.Ctx) error {
     id := c.Params("id")
     var card model.Card
+
     repository.Database.Db.Find(&card, id)
+    if (service.ExistCheck(card)) {
+        return c.Status(404).JSON("card not found")
+    }
+    
     return c.JSON(card)
 }
 
@@ -36,6 +42,10 @@ func UpdateCard(c *fiber.Ctx) error {
     var card model.Card
 
     repository.Database.Db.Find(&card, "id = ?", id)
+
+    if (service.ExistCheck(card)) {
+        c.Status(404).JSON("card not found")
+    }
 
     type newCardData struct {
         Number string `json:"number"`
@@ -60,6 +70,10 @@ func DeleteCard(c *fiber.Ctx) error {
     var card model.Card
 
     repository.Database.Db.Find(&card, "id = ?", id)
+    
+    if (service.ExistCheck(card)) {
+        c.Status(404).JSON("card not found")
+    }
 
     err := repository.Database.Db.Delete(&card).Error
     if err != nil {
