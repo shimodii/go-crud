@@ -17,10 +17,13 @@ func GetSpecific(c *fiber.Ctx) error {
     id := c.Params("id")
     var card model.Card
 
-    repository.Database.Db.Find(&card, id)
-    if (service.ExistCheck(card)) {
+    err := repository.Database.Db.Find(&card, id)
+    if err != nil {
         return c.Status(404).JSON("card not found")
     }
+    //if (service.ExistCheck(card)) {
+    //    return c.Status(404).JSON("card not found")
+    //}
     
     return c.JSON(card)
 }
